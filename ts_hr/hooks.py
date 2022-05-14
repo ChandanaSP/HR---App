@@ -31,9 +31,8 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Employee" : "ts_hr/custom/js/employee.js",
-			   "Payroll Entry" : "ts_hr/custom/js/payroll_entry.js"}
-doctype_list_js = {"Salary Structure Assignment" : "ts_hr/custom/js/py/salary_structure_assignment.js"}
+# doctype_js = {"doctype" : "public/js/doctype.js"}
+# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -97,9 +96,11 @@ doctype_list_js = {"Salary Structure Assignment" : "ts_hr/custom/js/py/salary_st
 # Hook on document methods and events
 
 # doc_events = {
-# 	"Employee": {
-# 		"before_save":"ts_hr.ts_hr.Custom.employee.create_employee"
-# 	}
+# 	"*": {
+# 		"on_update": "method",
+# 		"on_cancel": "method",
+# 		"on_trash": "method"
+#	}
 # }
 
 # Scheduled Tasks
