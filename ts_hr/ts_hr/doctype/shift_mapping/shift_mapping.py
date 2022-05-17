@@ -1,8 +1,0 @@
-# Copyright (c) 2022, Ts Hr and contributors
-# For license information, please see license.txt
-
-# import frappe
-from frappe.model.document import Document
-
-class Shiftmapping(Document):
-	pass
