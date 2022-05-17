@@ -1,0 +1,32 @@
+{
+ "custom_fields": [],
+ "custom_perms": [],
+ "doctype": "Employee Other Income",
+ "property_setters": [
+  {
+   "_assign": null,
+   "_comments": null,
+   "_liked_by": null,
+   "_user_tags": null,
+   "creation": "2022-05-14 09:49:34.908111",
+   "default_value": null,
+   "doc_type": "Employee Other Income",
+   "docstatus": 0,
+   "doctype_or_field": "DocField",
+   "field_name": "source",
+   "idx": 0,
+   "modified": "2022-05-14 09:49:34.908111",
+   "modified_by": "Administrator",
+   "name": "Employee Other Income-source-hidden",
+   "owner": "Administrator",
+   "parent": null,
+   "parentfield": null,
+   "parenttype": null,
+   "property": "hidden",
+   "property_type": "Check",
+   "row_name": null,
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}
