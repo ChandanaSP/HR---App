@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-05-16 14:50:21.876348",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "bonus_amount",
+  "salary_component"
+ ],
+ "fields": [
+  {
+   "fieldname": "bonus_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Bonus Amount"
+  },
+  {
+   "fieldname": "salary_component",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Salary Component",
+   "options": "Salary Component"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-05-16 16:43:39.901371",
+ "modified_by": "Administrator",
+ "module": "Ts Hr",
+ "name": "Employee Bonus",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
