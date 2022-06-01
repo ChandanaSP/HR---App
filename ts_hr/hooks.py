@@ -31,7 +31,8 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Employee" : "ts_hr/custom/js/employee.js","Salary Structure Assignment" : "ts_hr/custom/js/py/salary_structure_assignment.js"}
+doctype_js = {"Employee" : "ts_hr/custom/js/employee.js",
+		 "Salary Structure Assignment" : "ts_hr/custom/js/py/salary_structure_assignment.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -95,13 +96,11 @@ doctype_js = {"Employee" : "ts_hr/custom/js/employee.js","Salary Structure Assig
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Employee": {
+		"after_insert": "ts_hr.utils.py.employee.create_child_employee"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -146,7 +145,7 @@ doctype_js = {"Employee" : "ts_hr/custom/js/employee.js","Salary Structure Assig
 # exempt linked doctypes from being automatically cancelled
 #
 # auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
+ 
 
 # User Data Protection
 # --------------------
