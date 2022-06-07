@@ -14,6 +14,7 @@
      "column_break_11",
      "daily_wages_fraction_for_half_day",
      "fraction_of_daily_salary_for_quarter_day",
+     "fraction_of_daily_salary_for_three_quarter_day",
      "email_salary_slip_to_employee",
      "encrypt_salary_slips_in_emails",
      "show_leave_balances_in_salary_slip",
@@ -93,6 +94,12 @@
       "fieldtype": "Check",
       "label": "Show Leave Balances in Salary Slip"
      },
+     {
+       "default": "0.75",
+       "fieldname": "fraction_of_daily_salary_for_three_quarter_day",
+       "fieldtype": "Float",
+       "label": "Fraction of Daily Salary for Three Quarter Day"
+      },
      {
       "default": "0.75",
       "fieldname": "fraction_of_daily_salary_for_quarter_day",
