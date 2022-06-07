@@ -461,10 +461,16 @@ class SalarySlip(TransactionBase):
 		daily_wages_fraction_for_half_day = (
 			flt(frappe.db.get_value("Payroll Settings", None, "daily_wages_fraction_for_half_day")) or 0.5
 		)
+	#Quarter Day
 		fraction_of_daily_salary_for_quarter_day = (
 			flt(frappe.db.get_value("Payroll Settings", None, "fraction_of_daily_salary_for_quarter_day")) or 0.75
 		)
-
+#-----------------------------------------
+	#Three Quarter Day
+		fraction_of_daily_salary_for_three_quarter_day = (
+			flt(frappe.db.get_value("Payroll Settings", None, "fraction_of_daily_salary_for_three_quarter_day")) or 0.75
+		)
+#------------------------------------------------------
 		for d in range(working_days):
 			dt = add_days(cstr(getdate(self.start_date)), d)
 			leave = frappe.db.sql(
@@ -493,7 +499,6 @@ class SalarySlip(TransactionBase):
 			)
 			print(dt,self.employee,holidays)
 
-			# eeeeee
 			if leave:
 				equivalent_lwp_count = 0
 				is_half_day_leave = cint(leave[0][1])
@@ -508,7 +513,7 @@ class SalarySlip(TransactionBase):
 					)
 
 				# lwp += equivalent_lwp_count
-#Quater day 
+#Quater day
 			for d in range(working_days):
 				dt = add_days(cstr(getdate(self.start_date)), d)
 				leave = frappe.db.sql(
@@ -549,8 +554,49 @@ class SalarySlip(TransactionBase):
 						)
 
 					lwp += equivalent_lwp_count
-		print("Hiiiiiiiiiiiiiii",lwp)
 #------------------------------------------------------
+#Three Quarter Day-------------------------------
+			for d in range(working_days):
+				dt = add_days(cstr(getdate(self.start_date)), d)
+				leave = frappe.db.sql(
+					"""
+					SELECT t1.name,
+						CASE WHEN (t1.three_quarter_day_date = %(dt)s or t1.to_date = t1.from_date)
+						THEN t1.three_quarter_day else 0 END,
+						t2.is_ppl,
+						t2.fraction_of_daily_salary_per_leave
+					FROM `tabLeave Application` t1, `tabLeave Type` t2
+					WHERE t2.name = t1.leave_type
+					AND (t2.is_lwp = 1 or t2.is_ppl = 1)
+					AND t1.docstatus = 1
+					AND t1.employee = %(employee)s
+					AND ifnull(t1.salary_slip, '') = ''
+					AND CASE
+						WHEN t2.include_holiday != 1
+							THEN %(dt)s not in ('{0}') and %(dt)s between from_date and to_date
+						WHEN t2.include_holiday
+							THEN %(dt)s between from_date and to_date
+						END
+					""".format(
+						holidays
+					),
+					{"employee": self.employee, "dt": dt},
+				)
+				if leave:
+					equivalent_lwp_count = 0
+					is_three_quarter_day_leave = cint(leave[0][1])
+					is_partially_paid_leave = cint(leave[0][2])
+					fraction_of_daily_salary_per_leave = flt(leave[0][3])
+
+					equivalent_lwp_count = (1 - fraction_of_daily_salary_for_three_quarter_day) if is_three_quarter_day_leave else 1
+
+					if is_partially_paid_leave:
+						equivalent_lwp_count *= (
+							fraction_of_daily_salary_per_leave if fraction_of_daily_salary_per_leave else 1
+						)
+
+					lwp += equivalent_lwp_count
+#------------------------------------------------------------------------------------------
 		return lwp
 		
 
@@ -566,6 +612,11 @@ class SalarySlip(TransactionBase):
 			flt(frappe.db.get_value("Payroll Settings", None, "fraction_of_daily_salary_for_quarter_day")) or 0.75
 		)
 #------------------------------------------------
+#Three Quarter Day
+		fraction_of_daily_salary_for_three_quarter_day=(
+			flt(frappe.db.get_value("Payroll Settings", None, "fraction_of_daily_salary_for_three_quarter_day")) or 0.75
+		)
+#----------------------------------------
 		leave_types = frappe.get_all(
 			"Leave Type",
 			or_filters=[["is_ppl", "=", 1], ["is_lwp", "=", 1]],
@@ -581,7 +632,7 @@ class SalarySlip(TransactionBase):
 			SELECT attendance_date, status, leave_type
 			FROM `tabAttendance`
 			WHERE
-				status in ("Absent", "Half Day", "On leave", "Quarter Day")
+				status in ("Absent", "Half Day", "On leave", "Quarter Day", "Three Quarter Day")
 				AND employee = %s
 				AND docstatus = 1
 				AND attendance_date between %s and %s
@@ -592,7 +643,7 @@ class SalarySlip(TransactionBase):
 
 		for d in attendances:
 			if (
-				d.status in ("Half Day", "On Leave","Quarter Day")
+				d.status in ("Half Day", "On Leave","Quarter Day", "Three Quarter Day")
 				and d.leave_type
 				and d.leave_type not in leave_type_map.keys()
 			):
@@ -629,6 +680,16 @@ class SalarySlip(TransactionBase):
 					)
 				lwp += equivalent_lwp
 #----------------------------------------
+#Three Quarter Day
+			elif d.status == "Three Quarter Day":
+				equivalent_lwp = 1 - fraction_of_daily_salary_for_three_quarter_day
+
+				if d.leave_type in leave_type_map.keys() and leave_type_map[d.leave_type]["is_ppl"]:
+					equivalent_lwp *= (
+						fraction_of_daily_salary_per_leave if fraction_of_daily_salary_per_leave else 1
+					)
+				lwp += equivalent_lwp
+#---------------------------------------
 			elif d.status == "On Leave" and d.leave_type and d.leave_type in leave_type_map.keys():
 				equivalent_lwp = 1
 				if leave_type_map[d.leave_type]["is_ppl"]:

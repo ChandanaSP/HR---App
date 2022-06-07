@@ -13,8 +13,8 @@ from erpnext.hr.utils import get_holiday_dates_for_employee, validate_active_emp
 class Attendance(Document):
 	def validate(self):
 		from erpnext.controllers.status_updater import validate_status
-
-		validate_status(self.status, ["Present", "Absent", "On Leave", "Half Day", "Work From Home" , "Quarter Day"])
+#Quarter Day , Three Quarter Day
+		validate_status(self.status, ["Present", "Absent", "On Leave", "Half Day", "Work From Home" , "Quarter Day", "Three Quarter Day"])
 		validate_active_employee(self.employee)
 		self.validate_attendance_date()
 		self.validate_duplicate_record()
@@ -70,7 +70,7 @@ class Attendance(Document):
 			as_dict=True,
 		)
 #Quarter day------------------------------------
-		eave_record = frappe.db.sql(
+		leave_record = frappe.db.sql(
 			"""
 			select leave_type, quarter_day, quarter_day_date
 			from `tabLeave Application`
@@ -83,6 +83,20 @@ class Attendance(Document):
 			as_dict=True,
 		)
 #---------------------------------------
+# three Quarter Shift----------------------------
+		leave_record = frappe.db.sql(
+			"""
+			select leave_type, three_quarter_day, three_quarter_day_date
+			from `tabLeave Application`
+			where employee = %s
+				and %s between from_date and to_date
+				and status = 'Approved'
+				and docstatus = 1
+		""",
+			(self.employee, self.attendance_date),
+			as_dict=True,
+		)
+#--------------------------------
 		if leave_record:
 			for d in leave_record:
 				self.leave_type = d.leave_type
@@ -97,13 +111,19 @@ class Attendance(Document):
 						.format(self.employee, formatdate(self.attendance_date)))
 
 #------------------------------------------------
+# Three Quarter Day
+				elif d.three_quarter_day_date ==getdate(self.attendance_date):
+					self.status = "Three Quarter Day"
+					frappe.msgprint(_("Employee {0} on Three Quarter day on {1}")
+						.format(self.employee, formatdate(self.attendance_date)))
+#------------------------------------------------------
 				else:
 					self.status = "On Leave"
 					frappe.msgprint(
 						_("Employee {0} is on Leave on {1}").format(self.employee, formatdate(self.attendance_date))
 					)
-#Quarter Day
-		if self.status in ("On Leave", "Half Day","Quarter Day"):
+#Quarter Day , Three Quarter Day
+		if self.status in ("On Leave", "Half Day","Quarter Day", "Three Quarter Day"):
 			if not leave_record:
 				frappe.msgprint(_("No leave record found for employee {0} on {1}").format(
 						self.employee, formatdate(self.attendance_date)),alert=1)

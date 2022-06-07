@@ -17,7 +17,8 @@ class PayrollSettings(Document):
 			self.daily_wages_fraction_for_half_day = 0.5
 		if not self.fraction_of_daily_salary_for_quarter_day:
 			self.fraction_of_daily_salary_for_quarter_day = 0.75
-
+		if not self.fraction_of_daily_salary_for_three_quarter_day:
+			self.fraction_of_daily_salary_for_three_quarter_day = 0.75
 	def validate_password_policy(self):
 		if self.email_salary_slip_to_employee and self.encrypt_salary_slips_in_emails:
 			if not self.password_policy:

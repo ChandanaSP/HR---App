@@ -9,6 +9,8 @@ frappe.listview_settings['Attendance'] = {
 			return [__(doc.status), "orange", "status,=," + doc.status];
 		}else if (doc.status == "Quarter Day") {
 			return [__(doc.status), "orange", "status,=," + doc.status];
+		}else if (doc.status == "Three Quarter Day") {
+			return [__(doc.status), "orange", "status,=," + doc.status];
 		}
 	},
 
