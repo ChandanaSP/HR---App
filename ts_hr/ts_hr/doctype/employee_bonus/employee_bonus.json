@@ -1,46 +1,103 @@
 {
  "actions": [],
- "allow_rename": 1,
- "creation": "2022-05-16 14:50:21.876348",
+ "autoname": "HR-EB-.YYYY.-.#####",
+ "creation": "2022-06-09 14:32:57.145666",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "company",
   "employee",
+  "employee_name",
+  "column_break_4",
+  "bonus_payment_date",
   "bonus_amount",
-  "salary_component"
+  "reference",
+  "base_grand_total",
+  "advance_paid",
+  "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "bonus_amount",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Bonus Amount"
-  },
-  {
-   "fieldname": "salary_component",
+   "fieldname": "company",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Salary Component",
-   "options": "Salary Component"
+   "label": "Company",
+   "options": "Company"
   },
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Employee",
    "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bonus_payment_date",
+   "fieldtype": "Date",
+   "label": "Bonus Payment Date"
+  },
+  {
+   "fieldname": "bonus_amount",
+   "fieldtype": "Currency",
+   "label": "Bonus Amount"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Link",
+   "label": "Reference",
+   "options": "Employee Bonus Tool"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Bonus",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "base_grand_total",
+   "fieldtype": "Currency",
+   "hidden": 1
+  },
+  {
+   "fieldname": "advance_paid",
+   "fieldtype": "Currency",
+   "hidden": 1
   }
  ],
  "index_web_pages_for_search": 1,
- "istable": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2022-05-16 16:43:39.901371",
+ "modified": "2022-06-09 15:01:39.226886",
  "modified_by": "Administrator",
  "module": "Ts Hr",
  "name": "Employee Bonus",
  "owner": "Administrator",
- "permissions": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
  "sort_field": "modified",
  "sort_order": "DESC"
 }
