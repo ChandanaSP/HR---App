@@ -27,14 +27,18 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Employee",
-   "options": "Employee"
+   "options": "Employee",
+   "reqd": 1
   },
   {
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Employee Name"
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_4",
@@ -43,12 +47,16 @@
   {
    "fieldname": "bonus_payment_date",
    "fieldtype": "Date",
-   "label": "Bonus Payment Date"
+   "in_list_view": 1,
+   "label": "Bonus Payment Date",
+   "reqd": 1
   },
   {
    "fieldname": "bonus_amount",
    "fieldtype": "Currency",
-   "label": "Bonus Amount"
+   "in_list_view": 1,
+   "label": "Bonus Amount",
+   "reqd": 1
   },
   {
    "fieldname": "reference",
@@ -79,7 +87,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-09 15:01:39.226886",
+ "modified": "2022-06-10 12:08:21.133942",
  "modified_by": "Administrator",
  "module": "Ts Hr",
  "name": "Employee Bonus",
