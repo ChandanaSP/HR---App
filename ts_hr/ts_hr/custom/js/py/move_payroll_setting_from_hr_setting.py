@@ -5,7 +5,7 @@
 import frappe
 
 
-def execute(): #quarter day in Line 19
+def execute(): #quarter day in Line 19 , Three Quarter Day in line 20
 	data = frappe.db.sql(
 		"""SELECT *
         FROM `tabSingles`
@@ -17,6 +17,9 @@ def execute(): #quarter day in Line 19
                 "email_salary_slip_to_employee",
                 "daily_wages_fraction_for_half_day",
                 "fraction_of_daily_salary_for_quarter_day",
+                "fraction_of_daily_salary_for_three_quarter_day",
+                "fraction_of_daily_salary_for_one_quarter_day",
+                "fraction_of_daily_salary_for_one_half_day",
                 "disable_rounded_total",
                 "include_holidays_in_total_working_days",
                 "max_working_hours_against_timesheet",
