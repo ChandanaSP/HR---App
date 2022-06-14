@@ -32,8 +32,7 @@ app_license = "MIT"
 
 # include js in doctype views
 doctype_js = {"Employee" : "ts_hr/custom/js/employee.js",
-		 "Salary Structure Assignment" : "ts_hr/custom/js/py/salary_structure_assignment.js",
-		 "Salary Slip":"ts_hr/custom/js/salary_slip.js"}
+		 "Salary Structure Assignment" : "ts_hr/custom/js/py/salary_structure_assignment.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -100,6 +99,9 @@ doctype_js = {"Employee" : "ts_hr/custom/js/employee.js",
 doc_events = {
 	"Employee": {
 		"after_insert": "ts_hr.utils.py.employee.create_child_employee"
+	},
+	"Salary Slip":{
+		"validate":"ts_hr.utils.py.salary_slip.salary_slip_based_on_shift"
 	}
 }
 
