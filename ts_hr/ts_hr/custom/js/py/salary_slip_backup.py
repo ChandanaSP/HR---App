@@ -237,9 +237,7 @@ class SalarySlip(TransactionBase):
 				return [ps.payroll_based_on, ps.consider_unmarked_attendance_as]
 
 	def set_time_sheet(self):
-		print(self.salary_slip_based_on_shift,'////////////////////////////////////////////////////')
 		if self.salary_slip_based_on_timesheet:
-			rr
 			self.set("timesheets", [])
 			timesheets = frappe.db.sql(
 				""" select * from `tabTimesheet` where employee = %(employee)s and start_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Submitted' or
