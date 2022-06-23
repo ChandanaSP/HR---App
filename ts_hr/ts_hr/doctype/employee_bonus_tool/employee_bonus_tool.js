@@ -1,3 +1,6 @@
+// Copyright (c) 2022, Thirvusoft and contributors
+// For license information, please see license.txt
+	
 frappe.ui.form.on("Employee Bonus Tool",{
 	designation:function(frm,cdt,cdn){
 		var bonus=locals[cdt][cdn]
@@ -6,36 +9,40 @@ frappe.ui.form.on("Employee Bonus Tool",{
 			method:"ts_hr.ts_hr.doctype.employee_bonus_tool.employee_bonus_tool.employee_finder",
 			args:{bonus1},
 			callback(r){
-				frm.clear_table("employee_bonus");
+				frm.clear_table("employee_bonus_details");
 				for(var i=0;i<r.message.length;i++){
-					var child = cur_frm.add_child("employee_bonus");
-					frappe.model.set_value(child.doctype, child.name, "bonus_amount", r.message[i]["name"])
+					var child = cur_frm.add_child("employee_bonus_details");
+					frappe.model.set_value(child.doctype, child.name, "employee", r.message[i]["name"])
 					frappe.model.set_value(child.doctype, child.name, "employee_name", r.message[i]["employee_name"])
-					// frappe.model.set_value(child.doctype, child.name, "designation", bonus1)
-					// // if (frm.doc.designation == "Labour Worker"){
-					// 	frappe.model.set_value(child.doctype, child.name, "payment_method",'Deduct from Salary')
-					// }
+					frappe.model.set_value(child.doctype, child.name, "designation", bonus1)
+					if (frm.doc.designation == "Labour Worker"){
+						frappe.model.set_value(child.doctype, child.name, "payment_method",'Deduct from Salary')
+					}
 				}
-				cur_frm.refresh_field("employee_bonus")
+				cur_frm.refresh_field("employee_bonus_details")
 			}
 		})
 
 	},
-	
 	on_submit:function(frm,cdt,cdn){
 		var bonus=locals[cdt][cdn]
-		console.log(bonus.employee_bonus.length)
-		for(var i=0;i<bonus.employee_bonus.length;i++){
-            console.log("hiiiiiiiiiiiiiiiiii")
+		for(var i=0;i<bonus.employee_bonus_details.length;i++){
 			frappe.call({
-				method:"ts_hr.ts_hr.doctype.employee_bonus_tool.employee_bonus_tool.create_retention_bonus",
-				args:{bonus_amount:bonus.employee_bonus[i].bonus_amount,
-					employee:bonus.employee_bonus[i].employee,
-					salary_component:bonus.employee_bonus[i].salary_component,
+				method:"ts_hr.ts_hr.doctype.employee_bonus_tool.employee_bonus_tool.create_bonus",
+				args:{amount:bonus.employee_bonus_details[i].current_bonus,
+					name:bonus.employee_bonus_details[i].employee,
 					date:frm.doc.date,
-					// date:frm.doc.date,
-					// payment_type:bonus.employee_bonus[i].payment_method
-                },
+					doc:frm.doc.name},
 			})
 		}
-	}})
+	},
+	before_save:function(frm, cdt, cdn) {
+		var table = frm.doc.employee_bonus_details;
+		var total = 0;
+		for(var i in table) {
+			total = total + table[i].current_bonus;
+		 }
+		 frm.set_value("total_bonus_amount",total);
+		}
+});
+	 

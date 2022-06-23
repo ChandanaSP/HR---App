@@ -18,6 +18,11 @@ def execute(): #quarter day in Line 19 , Three Quarter Day in line 20
                 "daily_wages_fraction_for_half_day",
                 "fraction_of_daily_salary_for_quarter_day",
                 "fraction_of_daily_salary_for_three_quarter_day",
+<<<<<<< HEAD
+=======
+                "fraction_of_daily_salary_for_one_quarter_day",
+                "fraction_of_daily_salary_for_one_half_day",
+>>>>>>> 0481b3fe395ee18df485eb4c34c3f37a1dc50f36
                 "disable_rounded_total",
                 "include_holidays_in_total_working_days",
                 "max_working_hours_against_timesheet",

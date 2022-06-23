@@ -95,25 +95,39 @@ class ShiftType(Document):
 			and total_working_hours < self.working_hours_threshold_for_absent
 		):
 			return "Absent", total_working_hours, late_entry, early_exit, in_time, out_time
-#Quarter Day	
+#Quarter Day-------------------
 		if (
             self.working_hours_threshold_for_quater_day
             and total_working_hours < self.working_hours_threshold_for_quater_day
 		):
 			return "Quarter Day", total_working_hours, late_entry, early_exit, in_time, out_time
-#------------------------------------------------------
-#Three Quarter Day-----------
-		if (
-            self.working_hours_threshold_for_three_quater_day
-            and total_working_hours < self.working_hours_threshold_for_three_quater_day
-		):
-			return "Three Quarter Day", total_working_hours, late_entry, early_exit, in_time, out_time
-#----------------------------------
+#--------------------------------
 		if (
 			self.working_hours_threshold_for_half_day
 			and total_working_hours < self.working_hours_threshold_for_half_day
 		):
 			return "Half Day", total_working_hours, late_entry, early_exit, in_time, out_time
+#Three Quarter Day---------------
+		if (
+            self.working_hours_threshold_for_three_quarter_day
+            and total_working_hours < self.working_hours_threshold_for_three_quarter_day
+		):
+			return "Three Quarter Day", total_working_hours, late_entry, early_exit, in_time, out_time
+#----------------------------------
+#One Quarter Day------------------------
+		if (
+            self.working_hours_threshold_for_one_quarter_day
+            and total_working_hours < self.working_hours_threshold_for_one_quarter_day
+		):
+			return "One Quarter Day", total_working_hours, late_entry, early_exit, in_time, out_time
+#----------------------------------------------------
+#One Half Day----------------------------------
+		if (
+            self.working_hours_threshold_for_one_half_day
+            and total_working_hours < self.working_hours_threshold_for_one_half_day
+		):
+			return "One Half Day", total_working_hours, late_entry, early_exit, in_time, out_time
+#--------------------------------------------------
 		return "Present", total_working_hours, late_entry, early_exit, in_time, out_time
 
 	def mark_absent_for_dates_with_no_attendance(self, employee):
