@@ -99,6 +99,9 @@ doctype_js = {"Employee" : "ts_hr/custom/js/employee.js",
 doc_events = {
 	"Employee": {
 		"after_insert": "ts_hr.utils.py.employee.create_child_employee"
+	},
+	"Salary Slip":{
+		"validate":"ts_hr.utils.py.salary_slip.salary_slip_based_on_shift"
 	}
 }
 
