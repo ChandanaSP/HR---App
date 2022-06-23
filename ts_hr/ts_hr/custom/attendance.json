@@ -86,7 +86,7 @@
       "no_copy": 1,
       "oldfieldname": "status",
       "oldfieldtype": "Select",
-      "options": "\nPresent\nAbsent\nOn Leave\nHalf Day\nQuarter Day\nThree Quarter Day\nOne Quarter Day\nOne Half Day\nWork From Home",
+      "options": "\nPresent\nAbsent\nOn Leave\nHalf Day\nQuarter Day\nThree Quarter Day\nWork From Home",
       "reqd": 1,
       "search_index": 1
      },
